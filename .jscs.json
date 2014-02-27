@@ -1,0 +1,167 @@
+{
+
+  "validateJSDoc": {
+    "checkParamNames": true,
+    "checkRedundantParams": true,
+    "requireParamTypes": true
+  },
+
+  "validateLineBreaks": "LF",
+  "validateQuoteMarks": true,
+
+  "requireCurlyBraces": [
+    "if",
+    "else",
+    "for",
+    "while",
+    "do",
+    "try",
+    "catch"
+  ],
+
+  "requireSpaceAfterKeywords": [
+    "if",
+    "else",
+    "for",
+    "while",
+    "do",
+    "switch",
+    "return",
+    "try",
+    "catch"
+  ],
+
+  "requireOperatorBeforeLineBreak": [
+    "?",
+    "+",
+    "-",
+    "/",
+    "*",
+    "=",
+    "==",
+    "===",
+    "!=",
+    "!==",
+    "&gt;",
+    "&gt;=",
+    "&lt;",
+    "&lt;="
+  ],
+
+  "requireSpaceBeforeBinaryOperators": [
+    "+",
+    "-",
+    "/",
+    "*",
+    "=",
+    "==",
+    "===",
+    "!=",
+    "!=="
+  ],
+
+  "requireSpaceAfterBinaryOperators": [
+    "+",
+    "-",
+    "/",
+    "*",
+    "=",
+    "==",
+    "===",
+    "!=",
+    "!=="
+  ],
+
+  "requireRightStickedOperators": [
+    "!"
+  ],
+
+  "requireLeftStickedOperators": [
+    ","
+  ],
+
+  "requireKeywordsOnNewLine": [
+    "catch",
+    "while"
+  ],
+
+  "requireSpacesInFunctionExpression": {
+    "beforeOpeningCurlyBrace": true
+  },
+
+  "requireParenthesesAroundIIFE": true,
+  "requireCommaBeforeLineBreak": true,
+  "requireCamelCaseOrUpperCaseIdentifiers": true,
+  "requireCapitalizedConstructors": true,
+  "requireDotNotation": true,
+
+  "disallowLeftStickedOperators": [
+    "?",
+    "+",
+    "-",
+    "/",
+    "*",
+    "=",
+    "==",
+    "===",
+    "!=",
+    "!==",
+    "&gt;",
+    "&gt;=",
+    "&lt;",
+    "&lt;="
+  ],
+
+  "disallowSpaceAfterPrefixUnaryOperators": [
+    "++",
+    "--",
+    "+",
+    "-",
+    "~",
+    "!"
+  ],
+
+  "disallowRightStickedOperators": [
+    "?",
+    "+",
+    "/",
+    "*",
+    ":",
+    "=",
+    "==",
+    "===",
+    "!=",
+    "!==",
+    "&gt;",
+    "&gt;=",
+    "&lt;",
+    "&lt;="
+  ],
+
+  "disallowSpaceBeforePostfixUnaryOperators": [
+    "++",
+    "--"
+  ],
+
+  "disallowImplicitTypeConversion": [
+    "numeric",
+    "boolean",
+    "binary",
+    "string"
+  ],
+
+  "disallowKeywords": [
+    "with"
+  ],
+
+  "disallowMultipleLineStrings": true,
+  "disallowMultipleLineBreaks": true,
+  "disallowEmptyBlocks": true,
+  "disallowSpacesInsideArrayBrackets": true,
+  "disallowSpacesInsideParentheses": true,
+  "disallowQuotedKeysInObjects": true,
+  "disallowSpaceAfterObjectKeys": true,
+  "disallowTrailingWhitespace": true,
+  "disallowMixedSpacesAndTabs": "smart"
+
+}

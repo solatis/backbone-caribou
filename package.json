@@ -1,0 +1,44 @@
+{
+  "author": "Leon Mergen",
+  "name": "backbone-caribou",
+  "description": "A few boilerplate tools built on top of backbone.layoutmanager.",
+  "version": "0.1.0",
+  "homepage": "http://backbone-caribou.org/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/solatis/backbone-caribou.git"
+  },
+  "main": "node/index",
+  "browser": "./src/backbone-caribou.js",
+  "engines": {
+    "node": ">=0.8"
+  },
+  "dependencies": {
+    "backbone": "~1.1",
+    "underscore": ">=1.5"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "requirejs": "~2.1.10",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-qunit-istanbul": "~0.3.0",
+    "grunt-nodequnit": "~0.2.0",
+    "grunt-benchmark": "~0.2.0",
+    "grunt-jscs-checker": "~0.3.2"
+  },
+  "scripts": {
+    "test": "grunt && cat test/report/lcov.info | coveralls"
+  },
+  "jam": {
+    "dependencies": {
+      "underscore": ">=1.5",
+      "backbone": "~1.1",
+      "jquery": ">=1.6"
+    },
+    "include": [
+      "src/backbone-caribou.js"
+    ],
+    "main": "src/backbone-caribou.js"
+  }
+}
