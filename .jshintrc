@@ -1,0 +1,30 @@
+{
+    "browser": true,
+    "boss": true,
+    "immed": false,
+    "eqnull": true,
+    "es3": true,
+    "curly": true,
+    "quotmark": "single",
+    "trailing": true,
+    "unused": true,
+    "undef": true,
+    "globals": {
+        "global": true,
+        "define": true
+    },
+    "predef": [
+	"define",
+	"requirejs",
+        "require",
+        "module",
+	"Backbone",
+        "console",
+        "it",
+        "describe",
+        "expect",
+        "beforeEach",
+        "sinon",
+        "_"
+    ]
+}

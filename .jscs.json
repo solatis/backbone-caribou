@@ -7,7 +7,6 @@
   },
 
   "validateLineBreaks": "LF",
-  "validateQuoteMarks": true,
 
   "requireCurlyBraces": [
     "if",

@@ -20,25 +20,31 @@
   "devDependencies": {
     "grunt": "~0.4.2",
     "requirejs": "~2.1.10",
+    "mocha": "~1.17.1",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-jshint": "~0.8.0",
-    "grunt-qunit-istanbul": "~0.3.0",
-    "grunt-nodequnit": "~0.2.0",
     "grunt-benchmark": "~0.2.0",
-    "grunt-jscs-checker": "~0.3.2"
+    "grunt-jscs-checker": "~0.3.2",
+
+    "grunt-karma": "~0.6.2",
+    "grunt-karma-coveralls": "~2.3.0",
+
+    "karma-mocha": "~0.1.0",
+    "karma-coverage": "~0.1.0",
+    "karma-requirejs": "~0.2.1",
+    "karma-phantomjs-launcher": "~0.1.0",
+
+    "karma-chai": "~0.1.0",
+    "karma-sinon-chai": "~0.1.4",
+    "karma-chai-things": "~0.1.0",
+    "karma-chai-jquery": "~0.1.0"
+  },
+  "peerDependencies": {
+      "grunt-cli": "*",
+      "coveralls": "*"
   },
   "scripts": {
-    "test": "grunt && cat test/report/lcov.info | coveralls"
-  },
-  "jam": {
-    "dependencies": {
-      "underscore": ">=1.5",
-      "backbone": "~1.1",
-      "jquery": ">=1.6"
-    },
-    "include": [
-      "src/backbone-caribou.js"
-    ],
-    "main": "src/backbone-caribou.js"
+      "test": "grunt karma:run coveralls"
   }
+
 }

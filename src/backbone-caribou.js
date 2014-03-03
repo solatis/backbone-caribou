@@ -1,16 +1,18 @@
 (function (root, factory) {
-  if (typeof exports === 'object') {
-    var underscore = require('underscore');
-    var backbone = require('backbone');
-    var layout = require('backbone.layoutmanager');
 
-    module.exports = factory(underscore, backbone, layout);
+    var Backbone = window.Backbone;
 
-  } else if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.  Wrap in function so we have access
+    // to root via `this`.
+    if (typeof define === 'function' && define.amd) {
+        return define(['underscore', 'backbone', 'layoutmanager'], function(_, Backbone, Layout) {
+            return factory.call(factory, _, Backbone, Layout);
+        });
+    }
 
-    define(['underscore', 'backbone', 'backbone.layoutmanager'], factory);
-  }
-}(this, function (_, Backbone, Layout) {
+    // Browser globals.
+    Backbone.Caribou = factory.call(window._, Backbone, Backbone.Layout);
+}(typeof global === 'object' ? global : this, function (_, Backbone, Layout) {
   var Caribou = {};
 
   // CollectionView
@@ -18,7 +20,7 @@
   // A view that iterates over a Backbone.Collection
   // and renders an individual ItemView for each model.
   Caribou.CollectionView = Layout.extend({
-      constructor: function (options) {
+      constructor: function () {
           Layout.apply(this, arguments);
 
           this._bindEvents();
@@ -28,33 +30,57 @@
           if (this.collection) {
               this.listenTo(this.collection, 'add',    this._addAndRenderItem, this);
               this.listenTo(this.collection, 'remove', this._removeItem,       this);
+
+              // Since our render() funtion is responsible for scrubbing and re-creating
+              // all our views, a complete reset of the contents of the collection can
+              // be handled by simply issueing a re-render.
               this.listenTo(this.collection, 'reset',  this.render,            this);
           }
       },
 
       beforeRender: function () {
+          // Note that all child views are always scrubbed before re-rendering, so
+          // all we need to do at this point is add all the views we require.
+          //
+          // For each element in our collection, create a new child view.
           this.collection.each(this._addItem, this);
+
+          // When our collection is empty, and the end-user specified that they
+          // want to use an empty view in this case, ensure it is rendered.
+          if (_.size(this.collection) === 0 && this.EmptyViewType) {
+              this._emptyView = this._emptyViewFactory();
+              this._addView(this._emptyView);
+          }
       },
 
       _addAndRenderItem: function (model) {
-          return this._addItem(model).render();
+          if (this._emptyView) {
+              this.removeView(this._emptyView);
+              this._emptyView = null;
+          }
+
+          var view = this._addItem(model);
+
+          if (this.hasRendered) {
+              view.render();
+          }
+
+          return view;
       },
 
       _addItem: function (model) {
+          return this._addView(this._itemViewFactory(model));
+      },
 
-          var view = this._buildItemView(model);
+      _addView: function (view) {
           this.trigger('item:add:before', view);
 
           // Note that we're using the model as selector, which
           // is already part of the view.
           view = this.insertView(view);
-          //view.render()
 
           // If our parent view is already rendered, it means this
           // child view must be rendered too.
-          console.log('rendering view?');
-          console.log(this);
-
           this.trigger('item:add', view);
           this.trigger('item:add:after', view);
 
@@ -72,8 +98,20 @@
           this.trigger('item:remove:after', view);
       },
 
-      _buildItemView: function (model) {
+      _itemViewFactory: function (model) {
+          if (!this.ItemViewType) {
+              throw 'An ItemViewType must be specified';
+          }
+
           return new this.ItemViewType({model: model});
+      },
+
+      _emptyViewFactory: function () {
+          if (!this.EmptyViewType) {
+              throw 'An EmptyViewType must be specified';
+          }
+
+          return new this.EmptyViewType();
       }
   });
 
