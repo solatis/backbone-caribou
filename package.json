@@ -20,11 +20,10 @@
   "devDependencies": {
     "grunt": "~0.4.2",
     "requirejs": "~2.1.10",
-    "mocha": "~1.17.1",
+
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-requirejs": "*",
-    "grunt-benchmark": "~0.2.0",
     "grunt-jscs-checker": "~0.3.2",
 
     "grunt-karma": "~0.6.2",
