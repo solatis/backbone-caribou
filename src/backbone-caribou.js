@@ -1,120 +1,98 @@
-(function (root, factory) {
+// CollectionView
+// --------
+// A view that iterates over a Backbone.Collection
+// and renders an individual ItemView for each model.
 
-    var Backbone = window.Backbone;
+define(['underscore', 'backbone', 'layoutmanager'], function(_, Backbone, Layout) {
+    return Layout.extend({
+        constructor: function () {
+            Layout.apply(this, arguments);
 
-    // AMD. Register as an anonymous module.  Wrap in function so we have access
-    // to root via `this`.
-    if (typeof define === 'function' && define.amd) {
-        return define(['underscore', 'backbone', 'layoutmanager'], function(_, Backbone, Layout) {
-            return factory.call(factory, _, Backbone, Layout);
-        });
-    }
+            this._bindEvents();
+        },
 
-    // Browser globals.
-    Backbone.Caribou = factory.call(window._, Backbone, Backbone.Layout);
-}(typeof global === 'object' ? global : this, function (_, Backbone, Layout) {
-  var Caribou = {};
+        _bindEvents: function () {
+            if (this.collection) {
+                this.listenTo(this.collection, 'add',    this._addAndRenderItem, this);
+                this.listenTo(this.collection, 'remove', this._removeItem,       this);
 
-  // CollectionView
-  // --------
-  // A view that iterates over a Backbone.Collection
-  // and renders an individual ItemView for each model.
-  Caribou.CollectionView = Layout.extend({
-      constructor: function () {
-          Layout.apply(this, arguments);
+                // Since our render() funtion is responsible for scrubbing and re-creating
+                // all our views, a complete reset of the contents of the collection can
+                // be handled by simply issueing a re-render.
+                this.listenTo(this.collection, 'reset',  this.render,            this);
+            }
+        },
 
-          this._bindEvents();
-      },
+        beforeRender: function () {
+            // Note that all child views are always scrubbed before re-rendering, so
+            // all we need to do at this point is add all the views we require.
+            //
+            // For each element in our collection, create a new child view.
+            this.collection.each(this._addItem, this);
 
-      _bindEvents: function () {
-          if (this.collection) {
-              this.listenTo(this.collection, 'add',    this._addAndRenderItem, this);
-              this.listenTo(this.collection, 'remove', this._removeItem,       this);
+            // When our collection is empty, and the end-user specified that they
+            // want to use an empty view in this case, ensure it is rendered.
+            if (_.size(this.collection) === 0 && this.EmptyViewType) {
+                this._emptyView = this._emptyViewFactory();
+                this._addView(this._emptyView);
+            }
+        },
 
-              // Since our render() funtion is responsible for scrubbing and re-creating
-              // all our views, a complete reset of the contents of the collection can
-              // be handled by simply issueing a re-render.
-              this.listenTo(this.collection, 'reset',  this.render,            this);
-          }
-      },
+        _addAndRenderItem: function (model) {
+            if (this._emptyView) {
+                this.removeView(this._emptyView);
+                this._emptyView = null;
+            }
 
-      beforeRender: function () {
-          // Note that all child views are always scrubbed before re-rendering, so
-          // all we need to do at this point is add all the views we require.
-          //
-          // For each element in our collection, create a new child view.
-          this.collection.each(this._addItem, this);
+            var view = this._addItem(model);
 
-          // When our collection is empty, and the end-user specified that they
-          // want to use an empty view in this case, ensure it is rendered.
-          if (_.size(this.collection) === 0 && this.EmptyViewType) {
-              this._emptyView = this._emptyViewFactory();
-              this._addView(this._emptyView);
-          }
-      },
+            if (this.hasRendered) {
+                view.render();
+            }
 
-      _addAndRenderItem: function (model) {
-          if (this._emptyView) {
-              this.removeView(this._emptyView);
-              this._emptyView = null;
-          }
+            return view;
+        },
 
-          var view = this._addItem(model);
+        _addItem: function (model) {
+            return this._addView(this._itemViewFactory(model));
+        },
 
-          if (this.hasRendered) {
-              view.render();
-          }
+        _addView: function (view) {
+            this.trigger('item:add:before', view);
 
-          return view;
-      },
+            // Note that we're using the model as selector, which
+            // is already part of the view.
+            view = this.insertView(view);
 
-      _addItem: function (model) {
-          return this._addView(this._itemViewFactory(model));
-      },
+            // If our parent view is already rendered, it means this
+            // child view must be rendered too.
+            this.trigger('item:add', view);
+            this.trigger('item:add:after', view);
 
-      _addView: function (view) {
-          this.trigger('item:add:before', view);
+            return view;
+        },
 
-          // Note that we're using the model as selector, which
-          // is already part of the view.
-          view = this.insertView(view);
+        _removeItem: function (model) {
+            // We're using the item's model as selector
+            var view = this.getView({model: model});
 
-          // If our parent view is already rendered, it means this
-          // child view must be rendered too.
-          this.trigger('item:add', view);
-          this.trigger('item:add:after', view);
+            this.trigger('item:remove:before', view);
+            view.remove();
 
-          return view;
-      },
+            this.trigger('item:remove', view);
+            this.trigger('item:remove:after', view);
+        },
 
-      _removeItem: function (model) {
-          // We're using the item's model as selector
-          var view = this.getView({model: model});
+        _itemViewFactory: function (model) {
+            if (!this.ItemViewType) {
+                throw 'An ItemViewType must be specified';
+            }
 
-          this.trigger('item:remove:before', view);
-          view.remove();
+            return new this.ItemViewType({model: model});
+        },
 
-          this.trigger('item:remove', view);
-          this.trigger('item:remove:after', view);
-      },
-
-      _itemViewFactory: function (model) {
-          if (!this.ItemViewType) {
-              throw 'An ItemViewType must be specified';
-          }
-
-          return new this.ItemViewType({model: model});
-      },
-
-      _emptyViewFactory: function () {
-          if (!this.EmptyViewType) {
-              throw 'An EmptyViewType must be specified';
-          }
-
-          return new this.EmptyViewType();
-      }
-  });
-
-  return Caribou;
-
-}));
+        _emptyViewFactory: function () {
+            return new this.EmptyViewType();
+        }
+    });
+});
