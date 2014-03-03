@@ -1,33 +1,23 @@
 module.exports = function() {
 
     this.config('requirejs', {
-        release: {
+        bundle: {
             options: {
-                mainConfigFile: "src/config.js",
-                generateSourceMaps: true,
-                include: ["main"],
-                out: "dist/backbone-caribou.min.js",
-                optimize: "uglify2",
+                baseUrl: 'src/',
 
-                // Since we bootstrap with nested `require` calls this option allows
-                // R.js to find them.
-                findNestedDependencies: true,
+                paths: {
+                    'underscore':    '../vendor/bower/underscore/underscore',
+                    'jquery':        '../vendor/bower/jquery/jquery',
+                    'backbone':      '../vendor/bower/backbone/backbone',
+                    'layoutmanager': '../vendor/bower/layoutmanager/backbone.layoutmanager'
+                },
 
-                // Include a minimal AMD implementation shim.
-                name: "almond",
-
-                // Setting the base url to the distribution directory allows the
-                // Uglify minification process to correctly map paths for Source
-                // Maps.
-                baseUrl: "dist/app",
-
-                // Wrap everything in an IIFE.
-                wrap: true,
-
-                // Do not preserve any license comments when working with source
-                // maps.  These options are incompatible.
-                preserveLicenseComments: false
-            },
+                include: ['caribou'],
+                exclude: ['jquery', 'underscore', 'backbone', 'layoutmanager'],
+                out: 'lib/backbone-caribou.js'
+            }
         }
     });
+
+    this.loadNpmTasks('grunt-requirejs');
 };

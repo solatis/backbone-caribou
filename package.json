@@ -23,6 +23,7 @@
     "mocha": "~1.17.1",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-jshint": "~0.8.0",
+    "grunt-requirejs": "*",
     "grunt-benchmark": "~0.2.0",
     "grunt-jscs-checker": "~0.3.2",
 
@@ -44,7 +45,6 @@
       "coveralls": "*"
   },
   "scripts": {
-      "test": "grunt karma:run coveralls"
+      "test": "grunt requirejs karma:run coveralls"
   }
-
 }

@@ -2,7 +2,6 @@
 // --------
 // A view that iterates over a Backbone.Collection
 // and renders an individual ItemView for each model.
-
 define(['underscore', 'backbone', 'layoutmanager'], function(_, Backbone, Layout) {
     return Layout.extend({
         constructor: function () {

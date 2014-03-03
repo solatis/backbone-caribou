@@ -1,7 +1,7 @@
 {
   "name": "backbone-caribou",
   "version": "0.1.0",
-  "main": "src/backbone-caribou.js",
+  "main": "src/caribou.js",
   "dependencies": {
     "backbone": "~1.1.2",
     "jquery": "~2.0.3",

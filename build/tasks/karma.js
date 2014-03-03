@@ -44,7 +44,7 @@ module.exports = function() {
                 {pattern: "vendor/bower/underscore/underscore.js", included: false},
                 {pattern: "vendor/bower/backbone/backbone.js", included: false},
                 {pattern: "vendor/bower/layoutmanager/backbone.layoutmanager.js", included: false},
-                {pattern: "src/**/*.js", included: false},
+                {pattern: "lib/backbone-caribou.js", included: false},
                 {pattern: "test/caribou/**/*.spec.js", included: false}],
 
             exclude: [

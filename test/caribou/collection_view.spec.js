@@ -1,10 +1,6 @@
 /* jshint expr:true */
 /* jshint -W024 */
-define(['layoutmanager', 'caribou'], function(Layout, CollectionView) {
-
-    var Caribou = {
-        CollectionView: CollectionView
-    };
+define(['layoutmanager', 'caribou'], function(Layout, Caribou) {
 
     var ItemView = Layout.extend({
         tagName: 'span',

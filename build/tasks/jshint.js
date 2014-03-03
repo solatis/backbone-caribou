@@ -2,7 +2,7 @@ module.exports = function () {
 
     this.config("jshint",
                 {
-                    files: ['src/backbone-caribou.js'],
+                    files: ['src/**/*.js'],
                     options: this.file.readJSON('.jshintrc'),
 
                     test: {

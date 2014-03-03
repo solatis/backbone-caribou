@@ -23,9 +23,9 @@
       'backbone':      '../vendor/bower/backbone/backbone',
       'layoutmanager': '../vendor/bower/layoutmanager/backbone.layoutmanager',
 
-      'caribou':       'backbone-caribou'
-
+      'caribou':       '../lib/backbone-caribou'
     },
+
     baseUrl: '/base/src'
   });
 
