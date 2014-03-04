@@ -44,13 +44,14 @@ module.exports = function() {
 
             coverageReporter: {
                 reporters: [{
-                    type: "text"
+                    type: "text",
+                    dir: 'coverage/text/'
                 }, {
                     type: 'lcovonly',
-                    dir: 'test/coverage/lcov/'
+                    dir: 'coverage/lcov/'
                 }, {
                     type: 'html',
-                    dir: 'test/coverage/html/'
+                    dir: 'coverage/html/'
                 }]
             },
 
@@ -92,7 +93,7 @@ module.exports = function() {
 
     this.config('coveralls', {
         options: {
-            coverage_dir: 'test/coverage/lcov/'
+            coverage_dir: 'coverage/lcov/'
         }
     });
 

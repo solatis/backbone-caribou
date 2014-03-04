@@ -3,5 +3,5 @@ module.exports = function() {
 
     this.registerTask("default", ["clean", "jscs", "jshint", "karma:debug"]);
     this.registerTask("server",  ["clean", "karma:server"])
-    this.registerTask("release", ["clean", "requirejs", "uglify", "karma:release"])
+    this.registerTask("release", ["clean", "requirejs", "karma:release"])
 };
