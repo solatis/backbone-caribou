@@ -4,6 +4,7 @@ module.exports = function() {
         options: {
 
             basePath: process.cwd(),
+            singleRun: true,
 
             frameworks: [
                 'mocha', 
@@ -20,10 +21,6 @@ module.exports = function() {
                 'karma-phantomjs-launcher', 
                 'karma-coverage'],
 
-            preprocessors: {
-                "src/**/*.js": "coverage"
-            },
-
 
             autoWatch: true,
 
@@ -31,6 +28,7 @@ module.exports = function() {
                 type: "lcov",
                 dir: "test/coverage/"
             },
+
 
             files: [
                 // All of our source files, which we won't include automatically (since were using require.js)
@@ -44,7 +42,8 @@ module.exports = function() {
                 {pattern: "vendor/bower/underscore/underscore.js", included: false},
                 {pattern: "vendor/bower/backbone/backbone.js", included: false},
                 {pattern: "vendor/bower/layoutmanager/backbone.layoutmanager.js", included: false},
-                {pattern: "lib/backbone-caribou.js", included: false},
+                {pattern: "src/**/*.js", included: false},
+                {pattern: "lib/backbone-caribou.min.js", included: false},
                 {pattern: "test/caribou/**/*.spec.js", included: false}],
 
             exclude: [
@@ -55,15 +54,20 @@ module.exports = function() {
             browsers: ['PhantomJS']
         },
 
-        daemon: {
+        debug: {
             options: {
-                singleRun: false
+                singleRun: false,
+                preprocessors: {
+                    "src/**/*.js": "coverage"                
+                }
             }
         },
 
-        run: {
+        release: {
             options: {
-                singleRun: true
+                preprocessors: {
+                    "lib/*.js":    "coverage"
+                }
             }
         }
     });

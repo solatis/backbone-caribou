@@ -14,7 +14,8 @@ module.exports = function() {
 
                 include: ['caribou'],
                 exclude: ['jquery', 'underscore', 'backbone', 'layoutmanager'],
-                out: 'lib/backbone-caribou.js'
+                out: 'lib/backbone-caribou.min.js',
+                preserveLicenseComments: false
             }
         }
     });

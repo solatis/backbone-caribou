@@ -21,9 +21,7 @@
       'underscore':    '../vendor/bower/underscore/underscore',
       'jquery':        '../vendor/bower/jquery/jquery',
       'backbone':      '../vendor/bower/backbone/backbone',
-      'layoutmanager': '../vendor/bower/layoutmanager/backbone.layoutmanager',
-
-      'caribou':       '../lib/backbone-caribou'
+      'layoutmanager': '../vendor/bower/layoutmanager/backbone.layoutmanager'
     },
 
     baseUrl: '/base/src'
@@ -34,6 +32,16 @@
   ],
 
   function(_) {
+
+
+    if (_.contains(window.__karma__.config.args._, 'karma:release') == true) {
+        require.config({
+            paths: {
+                'caribou': '../lib/backbone-caribou.min'
+            }
+        });
+    }
+
     var specs = _.chain(karma.files)
       // Convert the files object to an array of file paths.
       .map(function(id, file) { return file; })

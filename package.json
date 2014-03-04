@@ -44,6 +44,6 @@
       "coveralls": "*"
   },
   "scripts": {
-      "test": "grunt requirejs karma:run coveralls"
+      "test": "grunt requirejs karma:release coveralls"
   }
 }
