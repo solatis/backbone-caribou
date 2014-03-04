@@ -26,20 +26,19 @@
 
     baseUrl: '/base/src'
   });
-
+    
   require([
     'underscore'
   ],
 
   function(_) {
+    var isRelease = '/base/lib/backbone-caribou.min.js' in window.__karma__.files;
 
-
-    if (_.contains(window.__karma__.config.args._, 'karma:release') == true) {
+    if (isRelease) {
         require.config({
             paths: {
                 'caribou': '../lib/backbone-caribou.min'
-            }
-        });
+            }});
     }
 
     var specs = _.chain(karma.files)

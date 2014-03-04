@@ -1,89 +1,98 @@
 module.exports = function() {
 
+    var sourceFiles = [
+        // All of our source files, which we won't include automatically (since were using require.js)
+        //{pattern: "vendor/bower/chai/chai.js"},
+        {pattern: "vendor/bower/requirejs/require.js"},
+        {pattern: "src/**/*.js", included: false},
+        
+        // Our test framework entry point
+        'test/test-main.js',
+        // Our test cases
+        {pattern: "test/caribou/**/*.spec.js", included: false},
+        
+        {pattern: "vendor/bower/jquery/jquery.js", included: false},
+        {pattern: "vendor/bower/underscore/underscore.js", included: false},
+        {pattern: "vendor/bower/backbone/backbone.js", included: false},
+        {pattern: "vendor/bower/layoutmanager/backbone.layoutmanager.js", included: false}];
+    
     this.config('karma', {
         options: {
-
+            captureTimeout: 7000,
             basePath: process.cwd(),
             singleRun: true,
+            logLevel: "ERROR",
 
             frameworks: [
-                'mocha', 
+                'mocha-debug',
+                'mocha',               
                 'chai-jquery', 
                 'chai-things', 
                 'sinon-chai', 
                 'chai'],
-            plugins: [
-                'karma-mocha', 
+            
+            plugins: [           
+                'karma-sourcemap-loader',
+                'karma-mocha-debug',
+                'karma-mocha',
                 'karma-chai-jquery', 
                 'karma-chai-things', 
                 'karma-sinon-chai', 
                 'karma-chai', 
-                'karma-coverage'],
-
-
-            autoWatch: true,
+                'karma-coverage',
+                'karma-phantomjs-launcher'],
 
             coverageReporter: {
-                type: "lcov",
-                dir: "test/coverage/"
+                reporters: [{
+                    type: "text"
+                }, {
+                    type: 'lcovonly',
+                    dir: 'test/coverage/lcov/'
+                }, {
+                    type: 'html',
+                    dir: 'test/coverage/html/'
+                }]
             },
 
 
-            files: [
-                // All of our source files, which we won't include automatically (since were using require.js)
-                //{pattern: "vendor/bower/chai/chai.js"},
-                {pattern: "vendor/bower/requirejs/require.js"},
+            preprocessors: {
+                "src/**/*.js": ['coverage'],
+                'lib/backbone-caribou.min.js': ['coverage']
+            },
 
-                // Our test framework entry point
-                'test/test-main.js',
-
-                {pattern: "vendor/bower/jquery/jquery.js", included: false},
-                {pattern: "vendor/bower/underscore/underscore.js", included: false},
-                {pattern: "vendor/bower/backbone/backbone.js", included: false},
-                {pattern: "vendor/bower/layoutmanager/backbone.layoutmanager.js", included: false},
-                {pattern: "src/**/*.js", included: false},
-                {pattern: "lib/backbone-caribou.min.js", included: false},
-                {pattern: "test/caribou/**/*.spec.js", included: false}],
+            files: sourceFiles,
 
             exclude: [
                 'src/main.js'
             ],
 
-            reporters: ['progress', 'coverage']
+            reporters: ['progress', 'coverage'],
+            browsers: ['PhantomJS']
         },
 
         // Target that is meant to run as an auto-refreshing test server during development.
         server: {
             options: {
-                singleRun: false,
-                preprocessors: {
-                    "src/**/*.js": "coverage"                
-                }
+                autoWatch: true,
+                singleRun: false
             }
         },
 
         // Singlerun target that tests our debug/development source code
-        debug: {
-            options: {
-                preprocessors: {
-                    "src/**/*.js": "coverage"                
-                }
-            }
-        },
+        debug: {},
 
         // Singlerun target that tests our production/minified source code
         release: {
             options: {
-                preprocessors: {
-                    "lib/*.js":    "coverage"
-                }
+                files: sourceFiles.concat([
+                    {pattern: 'lib/backbone-caribou.min.js', included: false}])
             }
         }
     });
 
     this.config('coveralls', {
         options: {
-            coverage_dir: 'test/coverage/'
+            coverage_dir: 'test/coverage/lcov/'
         }
     });
 
