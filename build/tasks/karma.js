@@ -18,7 +18,6 @@ module.exports = function() {
                 'karma-chai-things', 
                 'karma-sinon-chai', 
                 'karma-chai', 
-                'karma-phantomjs-launcher', 
                 'karma-coverage'],
 
 
@@ -50,13 +49,20 @@ module.exports = function() {
                 'src/main.js'
             ],
 
-            reporters: ['progress', 'coverage'],
-            browsers: ['PhantomJS']
+            reporters: ['progress', 'coverage']
+        },
+
+        server: {
+            options: {
+                singleRun: false,
+                preprocessors: {
+                    "src/**/*.js": "coverage"                
+                }
+            }
         },
 
         debug: {
             options: {
-                singleRun: false,
                 preprocessors: {
                     "src/**/*.js": "coverage"                
                 }
