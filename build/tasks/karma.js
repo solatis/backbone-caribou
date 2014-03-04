@@ -52,6 +52,7 @@ module.exports = function() {
             reporters: ['progress', 'coverage']
         },
 
+        // Target that is meant to run as an auto-refreshing test server during development.
         server: {
             options: {
                 singleRun: false,
@@ -61,6 +62,7 @@ module.exports = function() {
             }
         },
 
+        // Singlerun target that tests our debug/development source code
         debug: {
             options: {
                 preprocessors: {
@@ -69,6 +71,7 @@ module.exports = function() {
             }
         },
 
+        // Singlerun target that tests our production/minified source code
         release: {
             options: {
                 preprocessors: {
