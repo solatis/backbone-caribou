@@ -55,7 +55,6 @@ module.exports = function() {
                 }]
             },
 
-
             preprocessors: {
                 "src/**/*.js": ['coverage'],
                 'lib/backbone-caribou.min.js': ['coverage']
