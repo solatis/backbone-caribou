@@ -56,10 +56,7 @@ define(['underscore', 'layoutmanager', 'caribou'], function(_, Layout, Caribou) 
         var collectionView;
 
         beforeEach(function () {
-            collectionView = chai.factory.create('empty_collection_view',
-                                                 {
-                                                     EmptyViewType: undefined
-                                                 });
+            collectionView = chai.factory.create('empty_collection_view', {EmptyViewType: undefined});
             collectionView.render();
         });
 
