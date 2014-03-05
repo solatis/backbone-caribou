@@ -25,20 +25,21 @@ module.exports = function() {
 
             frameworks: [
                 'mocha-debug',
-                'mocha',               
+                'mocha',  
                 'chai-jquery', 
                 'chai-things', 
+                'chai-js-factories',
                 'sinon-chai', 
                 'chai'],
             
             plugins: [           
-                'karma-sourcemap-loader',
                 'karma-mocha-debug',
                 'karma-mocha',
                 'karma-chai-jquery', 
                 'karma-chai-things', 
                 'karma-sinon-chai', 
                 'karma-chai', 
+                'karma-chai-js-factories',
                 'karma-coverage',
                 'karma-phantomjs-launcher'],
 

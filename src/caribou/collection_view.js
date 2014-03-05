@@ -11,13 +11,15 @@ define(['underscore', 'backbone', 'layoutmanager'], function(_, Backbone, Layout
         },
 
         _bindEvents: function () {
-            this.listenTo(this.collection, 'add',    this._addAndRenderItem, this);
-            this.listenTo(this.collection, 'remove', this._removeItem,       this);
-            
-            // Since our render() funtion is responsible for scrubbing and re-creating
-            // all our views, a complete reset of the contents of the collection can
-            // be handled by simply issueing a re-render.
-            this.listenTo(this.collection, 'reset',  this.render,            this);
+            if (this.collection) {
+                this.listenTo(this.collection, 'add',    this._addAndRenderItem, this);
+                this.listenTo(this.collection, 'remove', this._removeItem,       this);
+
+                // Since our render() funtion is responsible for scrubbing and re-creating
+                // all our views, a complete reset of the contents of the collection can
+                // be handled by simply issueing a re-render.
+                this.listenTo(this.collection, 'reset',  this.render,            this);
+            }
         },
 
         beforeRender: function () {

@@ -36,8 +36,10 @@
 
     "karma-chai": "~0.1.0",
     "karma-sinon-chai": "~0.1.4",
-    "karma-chai-things": "~0.1.0",
-    "karma-chai-jquery": "~0.1.0"
+    "karma-chai-things": "~0.1",
+    "karma-chai-jquery": "~0.1",
+    "karma-chai-js-factories": "~0.1"
+
   },
   "peerDependencies": {
       "grunt-cli": "*",

@@ -25,6 +25,8 @@
         "expect",
         "beforeEach",
         "sinon",
+        "chai",
+        "Factory",
         "_"
     ]
 }

@@ -1,6 +1,6 @@
 /* jshint expr:true */
 /* jshint -W024 */
-define(['layoutmanager', 'caribou'], function(Layout, Caribou) {
+define(['underscore', 'layoutmanager', 'caribou'], function(_, Layout, Caribou) {
 
     var ItemView = Layout.extend({
         tagName: 'span',
@@ -17,15 +17,34 @@ define(['layoutmanager', 'caribou'], function(Layout, Caribou) {
         EmptyViewType: EmptyView
     });
 
-    describe('when rendering a collection view with no itemview', function () {
+    chai.factory.define('collection', function (attributes) {
+        return new Backbone.Collection(
+            attributes || [{foo: 'wom'}, {foo: 'bat'}]);
+    });
 
-        var NoItemView = Caribou.CollectionView.extend({});
+    // Creates a collection view with a pre-filled collection.
+    chai.factory.define('collection_view', function (attributes) {
+        return new CollectionView(
+            _.extend(
+                {
+                    collection: chai.factory.create('collection')
+                }, attributes));
+    });
+
+    // Creates a ccollection view with an empty collection
+    chai.factory.define('empty_collection_view', function (attributes) {
+        return new CollectionView(
+            _.extend(
+                {
+                    collection: chai.factory.create('collection', [])
+                }, attributes));
+    });
+
+    describe('when rendering a collection view with no itemview', function () {
         var collectionView;
 
         beforeEach(function () {
-            var collection = new Backbone.Collection([{foo: 'wom'}, {foo: 'bat'}]);
-            collectionView = new NoItemView({
-                collection: collection});
+            collectionView = chai.factory.create('collection_view', {ItemViewType: undefined});
         });
 
         it('should throw an error', function () {
@@ -34,13 +53,13 @@ define(['layoutmanager', 'caribou'], function(Layout, Caribou) {
     });
 
     describe('when rendering an empty collectionview with no emptyview', function () {
-        var NoEmptyView = Caribou.CollectionView.extend({ItemViewType: ItemView});
         var collectionView;
 
         beforeEach(function () {
-            collectionView = new NoEmptyView({
-                collection: new Backbone.Collection()});
-
+            collectionView = chai.factory.create('empty_collection_view',
+                                                 {
+                                                     EmptyViewType: undefined
+                                                 });
             collectionView.render();
         });
 
@@ -54,8 +73,7 @@ define(['layoutmanager', 'caribou'], function(Layout, Caribou) {
     });
 
     describe('when creating a pre-filled collection view', function () {
-        var collection = new Backbone.Collection([{foo: 'wom'}, {bar: 'bat'}]);
-        var collectionView = new CollectionView({collection: collection});
+        var collectionView = chai.factory.create('collection_view');
 
         it('should not have created any child views yet', function () {
             expect(collectionView.getViews().value()).to.be.empty;
@@ -63,11 +81,10 @@ define(['layoutmanager', 'caribou'], function(Layout, Caribou) {
     });
 
     describe('when creating a pre-filled collection view', function() {
-        var collection = new Backbone.Collection([{foo: 'wom'}, {foo: 'bat'}]);
         var collectionView;
 
         beforeEach(function () {
-            collectionView = new CollectionView({collection: collection});
+            collectionView = chai.factory.create('collection_view');
 
             // Spy the main functions
             sinon.spy(collectionView, 'trigger');
@@ -88,11 +105,10 @@ define(['layoutmanager', 'caribou'], function(Layout, Caribou) {
     });
 
     describe('when rendering a pre-filled collection view', function () {
-        var collection = new Backbone.Collection([{foo: 'wom'}, {foo: 'bat'}]);
         var collectionView;
 
         beforeEach(function () {
-            collectionView = new CollectionView({collection: collection});
+            collectionView = chai.factory.create('collection_view');
 
             // Spy the main functions
             sinon.spy(collectionView, 'trigger');
@@ -155,7 +171,7 @@ define(['layoutmanager', 'caribou'], function(Layout, Caribou) {
         var collectionView;
 
         beforeEach(function () {
-            collectionView = new CollectionView({collection: new Backbone.Collection()});
+            collectionView = chai.factory.create('empty_collection_view');
 
             // Spy the main functions
             sinon.spy(collectionView, 'trigger');
@@ -182,8 +198,8 @@ define(['layoutmanager', 'caribou'], function(Layout, Caribou) {
         var collection, collectionView;
 
         beforeEach(function () {
-            collection = new Backbone.Collection();
-            collectionView = new CollectionView({collection: collection});
+            collectionView = chai.factory.create('empty_collection_view');
+            collection = collectionView.collection;
 
             // Note that we add an item *after* we call .render()
             collectionView.render();
@@ -204,21 +220,21 @@ define(['layoutmanager', 'caribou'], function(Layout, Caribou) {
         var collection, collectionView;
 
         beforeEach(function () {
-            collection = new Backbone.Collection([{foo: 'bar'}]);
-            collectionView = new CollectionView({collection: collection});
+            collectionView = chai.factory.create('collection_view');
+            collection = collectionView.collection;
 
             // Note that we add an item *after* we call .render()
             collectionView.render();
 
-            collection.add([{foo: 'bat'}]);
+            collection.add([{foo: 'foo'}]);
         });
 
         it('should have the html for both item views', function () {
-            collectionView.$el.should.have.html('<span>bar</span><span>bat</span>');
+            collectionView.$el.should.have.html('<span>wom</span><span>bat</span><span>foo</span>');
         });
 
         it('should containi each of the rendered child views', function () {
-            _.size(collectionView.getViews().value()).should.equal(2);
+            _.size(collectionView.getViews().value()).should.equal(3);
         });
     });
 
@@ -226,8 +242,8 @@ define(['layoutmanager', 'caribou'], function(Layout, Caribou) {
         var collection, collectionView;
 
         beforeEach(function () {
-            collection  = new Backbone.Collection([{foo: 'wom'}, {foo: 'bat'}]);
-            collectionView = new CollectionView({collection: collection});
+            collectionView = chai.factory.create('collection_view');
+            collection = collectionView.collection;
 
             // Note that we add an item *after* we call .render()
             collectionView.render();
@@ -249,8 +265,8 @@ define(['layoutmanager', 'caribou'], function(Layout, Caribou) {
         var collectionView;
 
         beforeEach(function () {
-            var collection  = new Backbone.Collection();
-            collectionView = new CollectionView({collection: collection});
+            collectionView = chai.factory.create('empty_collection_view');
+            var collection = collectionView.collection;
 
             // Note that we add an item *after* we call .render()
             collectionView.render();
@@ -266,7 +282,6 @@ define(['layoutmanager', 'caribou'], function(Layout, Caribou) {
             _.size(collectionView.getViews().value()).should.equal(2);
         });
     });
-
 
     describe('when an filled collection is first rendered and then reset with an empty set', function () {
         var collectionView;
@@ -293,10 +308,10 @@ define(['layoutmanager', 'caribou'], function(Layout, Caribou) {
 
     describe('when adding an item to an un-rendered collection', function () {
         var collectionView;
-
+        
         beforeEach(function () {
-            var collection  = new Backbone.Collection();
-            collectionView = new CollectionView({collection: collection});
+            collectionView = chai.factory.create('empty_collection_view');
+            var collection = collectionView.collection;
 
             collection.add({foo: 'wom'});
         });
