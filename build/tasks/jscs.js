@@ -4,7 +4,7 @@ module.exports = function() {
         options: {
             config: '.jscs.json'
         },
-        src: 'src/backbone-caribou.js'});
+        src: 'src/**/*.js'});
 
     this.loadNpmTasks('grunt-jscs-checker');
 };
