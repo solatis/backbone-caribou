@@ -47,6 +47,6 @@
       "coveralls": "*"
   },
   "scripts": {
-      "test": "grunt requirejs karma:release coveralls"
+      "test": "grunt requirejs uglify karma:release coveralls"
   }
 }
