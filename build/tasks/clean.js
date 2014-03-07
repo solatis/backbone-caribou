@@ -1,5 +1,5 @@
 module.exports = function() {
 
-    this.config('clean', ['coverage/', 'lib/']);
+    this.config('clean', ['coverage/']);
     this.loadNpmTasks('grunt-contrib-clean');
 };

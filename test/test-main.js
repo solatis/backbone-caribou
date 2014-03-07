@@ -32,12 +32,15 @@
   ],
 
   function(_) {
-    var isRelease = '/base/lib/backbone-caribou.min.js' in window.__karma__.files;
+    var isRelease = '/base/build/backbone-caribou.min.js' in window.__karma__.files;
 
+    // If this is a release build, we use the minified version as a subject to test (so
+    // we are testing the 'original' source files during development, but are testing the
+    // minified version before release).
     if (isRelease) {
         require.config({
             paths: {
-                'caribou': '../lib/backbone-caribou.min'
+                'caribou': '../build/backbone-caribou.min'
             }});
     }
 

@@ -58,7 +58,7 @@ module.exports = function() {
 
             preprocessors: {
                 "src/**/*.js": ['coverage'],
-                'lib/backbone-caribou.min.js': ['coverage']
+                'build/backbone-caribou.min.js': ['coverage']
             },
 
             files: sourceFiles,
@@ -86,7 +86,7 @@ module.exports = function() {
         release: {
             options: {
                 files: sourceFiles.concat([
-                    {pattern: 'lib/backbone-caribou.min.js', included: false}])
+                    {pattern: 'build/backbone-caribou.min.js', included: false}])
             }
         }
     });

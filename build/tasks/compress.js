@@ -6,13 +6,13 @@ module.exports = function() {
                         options: {
                             mode: 'tgz',
                             pretty: true,
-                            archive: 'lib/backbone-caribou.tar.gz'
+                            archive: 'build/backbone-caribou.tar.gz'
                         },
                         
                         src: [
-                            'lib/backbone-caribou.js', 
-                            'lib/backbone-caribou.min.js',
-                            'lib/backbone-caribou.min.map']
+                            'build/backbone-caribou.js', 
+                            'build/backbone-caribou.min.js',
+                            'build/backbone-caribou.min.map']
                     }
                 });
 

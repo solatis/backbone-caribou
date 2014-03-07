@@ -8,7 +8,7 @@ module.exports = function() {
                         },
                         
                         files: {
-                            'lib/backbone-caribou.min.js': ['lib/backbone-caribou.js']
+                            'build/backbone-caribou.min.js': ['build/backbone-caribou.js']
                         }
                     }
                 });
