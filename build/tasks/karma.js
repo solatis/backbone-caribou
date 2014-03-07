@@ -93,14 +93,6 @@ module.exports = function() {
         }
     });
 
-    this.config('coveralls', {
-        options: {
-            coverage_dir: 'coverage/lcov/',
-            force: true
-        }
-    });
-
     this.loadNpmTasks('grunt-karma');
-    this.loadNpmTasks('grunt-karma-coveralls');
 };
 

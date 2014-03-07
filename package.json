@@ -28,7 +28,6 @@
     "grunt-jscs-checker": "~0.3.2",
 
     "grunt-karma": "~0.6.2",
-    "grunt-karma-coveralls": "~2.3.0",
 
     "karma-mocha": "~0.1.0",
     "karma-mocha-debug": "~0.1.0",
@@ -44,10 +43,9 @@
 
   },
   "peerDependencies": {
-      "grunt-cli": "*",
-      "coveralls": "*"
+      "grunt-cli": "*"
   },
   "scripts": {
-      "test": "grunt clean jscs jshint karma:debug coveralls requirejs uglify karma:release"
+      "test": "grunt clean jscs jshint karma:debug requirejs uglify karma:release"
   }
 }
