@@ -95,7 +95,8 @@ module.exports = function() {
 
     this.config('coveralls', {
         options: {
-            coverage_dir: 'coverage/lcov/'
+            coverage_dir: 'coverage/lcov/',
+            force: true
         }
     });
 
